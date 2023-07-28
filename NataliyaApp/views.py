@@ -251,9 +251,26 @@ def logout(request):
     else:
         return redirect('/')
     
+# def product_view(request, item_id):
+#     item_instance = item.objects.get(id=item_id)
+#     oprice = item_instance.price  
+#     off = item_instance.offer    
+#     rp = oprice - (oprice * (off / 100))  
+#     return render(request, 'user/productview.html', {'item': item_instance, 'rp': rp})
+
 def product_view(request, item_id):
-    item_instance = item.objects.get(id=item_id)
-    oprice = item_instance.price  
-    off = item_instance.offer    
-    rp = oprice - (oprice * (off / 100))  
-    return render(request, 'user/productview.html', {'item': item_instance, 'rp': rp})
+    try:
+        item_instance = item.objects.get(id=item_id)
+        oprice = item_instance.price
+
+        if item_instance.offer:
+            off = item_instance.offer
+            rp = oprice - (oprice * (off / 100))
+        else:
+            rp = oprice
+
+        return render(request, 'user/productview.html', {'item': item_instance, 'rp': rp})
+
+    except item.DoesNotExist:
+        # Handle the case where the item does not exist
+        return HttpResponse("Item not found", status=404)

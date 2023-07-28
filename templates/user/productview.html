@@ -27,13 +27,17 @@
     border: 2px solid #db2c1c; /* Change the border color as needed */
     box-shadow: 0 0 10px #db2c1c; /* Add a box shadow when the image is hovered */
 }
+#image{
+    width:70%;
+    height:auto;
+}
 
 
 </style>
 <div class="container-fluid">
     <div class="row p-3 m-2 ">
         <div class="col-lg-6 col-sm-12">
-            <img class="img-fluid rounded mx-auto d-block rounded highlight-image" src="{{ item.image1.url }}" alt="">
+            <img id="image" class="img-fluid rounded mx-auto d-block rounded highlight-image" src="{{ item.image.url }}" alt="">
         </div>
         
         <div class="col-lg-6 col-sm-12 ">
@@ -42,9 +46,17 @@
             <p class="text-light pt-2">{{ item.description }}</p>
             <p class="p-1 mb-1 bg-success text-white text-center rounded" style="width: 50px; font-size: 11px;display: inline-block;"><b>{{ item.rating }}</b> <i class="fa fa-star"></i> </p>
             <h3 class="text-light h1">
+                {% if item.offer %}
+                    <i class="fa fa-rupee"></i>{{ rp }} <s class="h5 ml-3"><i class="fa fa-rupee"></i>{{ item.price }}</s>
+                    <p class="text-success h3 p-2 m-2 text-center" style="display: inline-block;"><span class="offer mr-2">{{ item.offer }}</span>% Off</p>
+                {% else %}
+                    <i class="fa fa-rupee"></i>{{ item.price }}
+                {% endif %}
+            </h3>
+            <!-- <h3 class="text-light h1">
             <i class="fa fa-rupee "></i>{{ rp }} <s class="h5 ml-3"><i class="fa fa-rupee "></i>{{item.price}}</s>
             <p class="text-success h3 p-2 m-2 text-center"  style="display: inline-block;"><span class="offer mr-2">{{ item.offer }}</span>% Off</p>
-            </h3>
+            </h3> -->
             <div class="btn-container">
                 <a class="btn" href="#" role="button" style="background-color:#db2c1c;color:#fff;"><i style="font-size:14px;color:white;" class="fas">&#xf07a;</i> Add To Cart</a>
                 <a class="btn" href="#" role="button" style="background-color:#d5b36b;color:#fff;"><i class="fa fa-shopping-bag" style="font-size:14px;"></i> Buy Now</a>

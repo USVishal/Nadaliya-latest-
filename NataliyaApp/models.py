@@ -68,11 +68,11 @@ class item(models.Model):
     rating = models.FloatField()
     category= models.CharField(max_length = 255,choices = CATG_CHOICES,blank=True,null=True) 
     buying_count = models.IntegerField()
-    offer = models.FloatField()
-    image1 = models.FileField(upload_to='images/items', default='static/images/default.jpg')
-    image2 = models.FileField(upload_to='images/items', default='static/images/default.jpg',blank=True)
-    image3 = models.FileField(upload_to='images/items', default='static/images/default.jpg',blank=True)
-    image4 = models.FileField(upload_to='images/items', default='static/images/default.jpg',blank=True)
-    
+    offer = models.FloatField(blank=True,null=True)
+    image = models.FileField(upload_to='images/items', default='static/images/default.png')
+   
     def __str__(self):
         return self.name
+class category(models.Model):
+    category_name=  models.CharField(max_length=255,blank=True,null=True)
+    image = models.FileField(upload_to='images/category-banner', default='static/images/default.png')
