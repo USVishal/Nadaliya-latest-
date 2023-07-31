@@ -1,0 +1,145 @@
+{% extends 'user/user_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f9f9f9;
+    }
+
+    /* Add custom CSS styles to display cards side by side */
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        overflow: auto;
+    }
+
+    .card {
+        width: 18rem;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        background: linear-gradient(135deg, #e57373, #f06292);
+        color: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #fff;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .card-text {
+        font-size: 1.2rem;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .price-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .original-price {
+        color: #ccc;
+        text-decoration: line-through;
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+
+    .offer-price {
+        color: #fff;
+        font-size: 1.6rem;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        color: #fff;
+        background-color: #ff4081;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #ff5177;
+    }
+
+    .fa-heart,
+    .fa-eye,
+    .fa-shopping-cart {
+        margin-right: 5px;
+    }
+
+    /* Add image highlight effect */
+    .card:hover .card-img-top {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        z-index: 1;
+    }
+</style>
+
+<div class="card-container m-2 mt-3">
+    {% for item in item_data %}
+    <div class="card">
+        <img class="card-img-top" src="{{ item.item.image.url }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ item.item.name }}</h5>
+            <p class="card-text">{{ item.item.title_description }}.</p>
+            <div class="price-container">
+                {% if item.item.offer %}
+                <p class="offer-price"><i class="fa fa-rupee"></i>{{ item.rp }}</p>
+
+                <p class="original-price"><i class="fa fa-rupee"></i>{{ item.item.price }}</p>
+                {% else %}
+                <p class="offer-price"><i class="fa fa-rupee"></i>{{ item.item.price }}</p>
+                {% endif %}
+            </div>
+            <div class="btn-container">
+                <!-- <button class="btn">
+                    <i class="fa fa-heart"></i> 
+                </button> -->
+                <a href="{% url 'product_view' item.item.id %}" class="btn ">
+                    <i class="fa fa-eye ml-2"></i>View 
+                </a>
+                <!-- <button class="btn">
+                    <i class="fa fa-shopping-cart"></i> 
+                </button> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

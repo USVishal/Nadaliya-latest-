@@ -59,20 +59,22 @@ class Profile_User(models.Model):
     
     def __str__(self):
         return f"{self.firstname} {self.lastname}"
+    
+class category(models.Model):
+    category_name=  models.CharField(max_length=255,blank=True,null=True)
+    image = models.FileField(upload_to='images/category-banner', default='static/images/default.png')
 
 class item(models.Model):
     user = models.ForeignKey(User_Registration, on_delete=models.SET_NULL, null=True, blank=True)
+    category= models.ForeignKey(category, on_delete=models.SET_NULL, null=True, blank=True)
+
     name = models.CharField(max_length=255,blank=True,null=True)
+    title_description = models.CharField(max_length=100,blank=True,null=True)
     description = models.TextField(blank=True,null=True)
     price = models.FloatField()
     rating = models.FloatField()
-    category= models.CharField(max_length = 255,choices = CATG_CHOICES,blank=True,null=True) 
     buying_count = models.IntegerField()
     offer = models.FloatField(blank=True,null=True)
     image = models.FileField(upload_to='images/items', default='static/images/default.png')
    
-    def __str__(self):
-        return self.name
-class category(models.Model):
-    category_name=  models.CharField(max_length=255,blank=True,null=True)
-    image = models.FileField(upload_to='images/category-banner', default='static/images/default.png')
+

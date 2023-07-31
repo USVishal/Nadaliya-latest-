@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Nataliya.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nadaliya',
+        'NAME': 'qninfo',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

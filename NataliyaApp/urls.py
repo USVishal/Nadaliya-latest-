@@ -25,8 +25,12 @@ urlpatterns = [
     path('profile_user_creation/',views.profile_user_creation,name='profile_user_creation'),
     
     path('user_home/',views.user_home,name='user_home'),
+    ############################################################ <<<<<<<<< products >>>>>>>>>>>>>>>>>
+    path('items_view/', views.items_view, name='items_view'),
+    # path('productdetail/<int:id>/', views.productdetail, name='productdetail'),
 
-     path('product_view/<int:item_id>/', views.product_view, name='product_view'),
+
+    path('product_view/<int:item_id>/', views.product_view, name='product_view'),
 
    
     ]

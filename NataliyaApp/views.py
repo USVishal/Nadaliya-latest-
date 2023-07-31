@@ -274,3 +274,20 @@ def product_view(request, item_id):
     except item.DoesNotExist:
         # Handle the case where the item does not exist
         return HttpResponse("Item not found", status=404)
+    
+####################################################
+def items_view(request):
+    items = item.objects.all()
+    item_data = []
+    for x in items:
+        oprice = x.price
+        if x.offer:
+            off = x.offer
+            rp = oprice - (oprice * (off/100))
+        else:
+            rp = oprice
+        item_data.append({'item': x, 'rp': rp})
+
+    return render(request, 'user/items_view.html', {'item_data': item_data})
+
+######################################################
