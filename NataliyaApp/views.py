@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -137,7 +137,47 @@ def staff_validate(request):
 
 
 def staff_home(request):
-    return render(request, 'staff/staff_home.html')
+    items = item.objects.all()
+    return render(request, 'staff/staff_home.html',{'items':items})
+#################################
+def delete_item(request,id):
+    d1=item.objects.get(id=id)
+    d1.delete()
+    return redirect('/staff_home/')
+    
+
+# def item_edit(request, item_id):
+#     its = item.objects.get(id=item_id)
+#     its.user=request.POST.get('user')
+#     its.category=request.POST.get('category')
+#     its.title_description=request.POST.get('title_description')
+#     its.description=request.POST.get('description')
+#     its.price=request.POST.get('price')
+#     its.rating=request.POST.get('rating')
+#     its.buying_count=request.POST.get('buying_count')
+#     its.offer=request.POST.get('offer')
+#     its.image=request.POST.get('image')
+#     its.save()
+#     return redirect("/staff_home/")
+# from django.shortcuts import render, get_object_or_404, redirect
+# from .models import item
+# from .forms import itemForm
+
+# def item_edit(request, item_id):
+#     its = get_object_or_404(item, id=item_id)
+
+#     if request.method == 'POST':
+#         form = itemForm(request.POST, request.FILES, instance=its)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('product_list')  # Redirect to a page showing the updated product list.
+
+#     else:
+#         form = itemForm(instance=its)
+
+#     return render(request, 'edit_item.html', {'form': form, 'data': its})
+
+
 #######################################logout################### <<<<<<<<<< USER MODULE >>>>>>>>>>>>>>>>
 
 def user_base(request):
@@ -251,12 +291,6 @@ def logout(request):
     else:
         return redirect('/')
     
-# def product_view(request, item_id):
-#     item_instance = item.objects.get(id=item_id)
-#     oprice = item_instance.price  
-#     off = item_instance.offer    
-#     rp = oprice - (oprice * (off / 100))  
-#     return render(request, 'user/productview.html', {'item': item_instance, 'rp': rp})
 
 def product_view(request, item_id):
     try:

@@ -1,0 +1,12 @@
+{% extends 'staff/staff_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'item_edit' data.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+{% endblock %}

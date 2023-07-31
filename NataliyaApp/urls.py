@@ -17,6 +17,8 @@ urlpatterns = [
     ############################################################ <<<<<<<<< Staff MODULE >>>>>>>>>>>>>>>>>
  
     path('staff_home/',views.staff_home,name='staff_home'),
+    path('delete/<int:id>/', views.delete_item, name='delete_item'),
+    # path('item_edit/<int:item_id>/', views.item_edit, name='item_edit'),
     path('staff_validate/',views.staff_validate,name='staff_validate'),
     ############################################################ <<<<<<<<< User MODULE >>>>>>>>>>>>>>>>>
 
@@ -27,9 +29,6 @@ urlpatterns = [
     path('user_home/',views.user_home,name='user_home'),
     ############################################################ <<<<<<<<< products >>>>>>>>>>>>>>>>>
     path('items_view/', views.items_view, name='items_view'),
-    # path('productdetail/<int:id>/', views.productdetail, name='productdetail'),
-
-
     path('product_view/<int:item_id>/', views.product_view, name='product_view'),
 
    

@@ -9,6 +9,19 @@ from django.core.validators import RegexValidator
 
 ########################################################<<<<<<<<< Creator Userform >>>>>>>>>>>>>>>>>
 
+from django import forms
+from .models import item
+
+class itemForm(forms.ModelForm):
+    class Meta:
+        model = item
+        fields = ['user', 'category', 'name', 'title_description', 'description', 'price', 'rating', 'buying_count', 'offer', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make the 'image' field not required
+        self.fields['image'].required = False
+################################################################
 class User_RegistrationForm(forms.ModelForm):
 
         gender = forms.ChoiceField(choices=[
