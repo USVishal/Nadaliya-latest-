@@ -78,3 +78,19 @@ class item(models.Model):
     image = models.FileField(upload_to='images/items', default='static/images/default.png')
    
 
+#################################bannerimage######################
+class BannerImage(models.Model):
+    image_1 = models.ImageField(upload_to='banner_images/')
+    label_1 = models.CharField(max_length=100)
+
+    image_2 = models.ImageField(upload_to='banner_images/')
+    label_2 = models.CharField(max_length=100)
+
+    image_3 = models.ImageField(upload_to='banner_images/')
+    label_3 = models.CharField(max_length=100)
+
+    image_4 = models.ImageField(upload_to='banner_images/')
+    label_4 = models.CharField(max_length=100)
+
+    image_5 = models.ImageField(upload_to='banner_images/')
+    label_5 = models.CharField(max_length=100)

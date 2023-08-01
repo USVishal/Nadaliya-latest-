@@ -5,4 +5,5 @@ from .models import *
 admin.site.register(User_Registration)
 admin.site.register(item)
 admin.site.register(category)
+admin.site.register(BannerImage)
 # Register your models here.

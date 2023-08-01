@@ -68,3 +68,22 @@ class User_RegistrationForm(forms.ModelForm):
             super().__init__(*args, **kwargs)
             self.fields['username'].required = False
             self.fields['password'].required = False
+
+################################bannerimage##########################
+from django import forms
+
+class ImageForm(forms.Form):
+    image_1 = forms.ImageField(label='Image 1')
+    label_1 = forms.CharField(label='Label 1', max_length=100)
+
+    image_2 = forms.ImageField(label='Image 2')
+    label_2 = forms.CharField(label='Label 2', max_length=100)
+
+    image_3 = forms.ImageField(label='Image 3')
+    label_3 = forms.CharField(label='Label 3', max_length=100)
+
+    image_4 = forms.ImageField(label='Image 4')
+    label_4 = forms.CharField(label='Label 4', max_length=100)
+
+    image_5 = forms.ImageField(label='Image 5')
+    label_5 = forms.CharField(label='Label 5', max_length=100)

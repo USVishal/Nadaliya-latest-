@@ -22,6 +22,8 @@ import random
 import string
 from django.http import HttpResponse
 from django.http import JsonResponse
+from .forms import ImageForm
+from .models import BannerImage
 
 ######################################################################### <<<<<<<<<< LANDING MODULE >>>>>>>>>>>>>>
 def index(request):
@@ -324,4 +326,29 @@ def items_view(request):
 
     return render(request, 'user/items_view.html', {'item_data': item_data})
 
-######################################################
+####################bannerimage################################
+def upload_images(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            banner_image = BannerImage(
+                image_1=form.cleaned_data['image_1'],
+                label_1=form.cleaned_data['label_1'],
+                image_2=form.cleaned_data['image_2'],
+                label_2=form.cleaned_data['label_2'],
+                image_3=form.cleaned_data['image_3'],
+                label_3=form.cleaned_data['label_3'],
+                image_4=form.cleaned_data['image_4'],
+                label_4=form.cleaned_data['label_4'],
+                image_5=form.cleaned_data['image_5'],
+                label_5=form.cleaned_data['label_5'],
+            )
+            banner_image.save()
+
+            messages.success(request, 'Images and labels have been uploaded successfully!')
+            return redirect('upload_images')  # Redirect to the same page to clear the form
+
+    else:
+        form = ImageForm()
+    return render(request, 'admin/bannerimg.html', {'form': form})
+  
