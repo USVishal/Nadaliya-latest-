@@ -24,6 +24,10 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from .forms import ImageForm
 from .models import BannerImage
+from django.contrib.auth import authenticate, login
+
+from django.contrib import messages
+from .models import User_Registration, Profile_User
 
 ######################################################################### <<<<<<<<<< LANDING MODULE >>>>>>>>>>>>>>
 def index(request):
@@ -35,7 +39,7 @@ def user_type(request):
   
     return render(request, 'index/user_type.html')
 
-def login_main(request):
+# def login_main(request):
     if request.method == 'POST':
         username  = request.POST['username']
         password = request.POST['password']
@@ -53,10 +57,6 @@ def login_main(request):
                 return redirect('staff_home')
             else:
                return redirect('staff_validate') 
-
-
-       
-
         elif User_Registration.objects.filter(username=request.POST['username'], password=request.POST['password'],role="user2").exists():
             member = User_Registration.objects.get(username=request.POST['username'],password=request.POST['password'])
             request.session['userid'] = member.id
@@ -67,6 +67,119 @@ def login_main(request):
         else:
             messages.error(request, 'Invalid username or password')
     return render(request,'index/login.html')
+
+
+
+# def login_main(request):
+#     if request.method == 'POST':
+#         username = request.POST.get("username")
+#         password = request.POST.get("password")
+#         data = authenticate(username=username, password=password)
+
+#         if data is not None:
+#             # User exists and provided correct credentials, log them in.
+#             login(request, data)
+
+#             if data.is_superuser:
+#                 return redirect('/adminhome/')
+#             else:
+#                 a1 = User_Registration.objects.get(username=username)  # checking user account table
+#                 if a1 is not None and a1.role == "user2":  # checking user type
+#                     return redirect('/user_home/')
+#                 elif a1 is not None and a1.role == "user1":
+#                     return redirect('/staff_home/')
+#         else:
+#             return HttpResponse("User does not exist")
+
+def login_main(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_superuser:
+                return redirect('/adminhome/')
+            else:
+                if User_Registration.objects.filter(username=username, role="user1").exists():
+                    member = User_Registration.objects.get(username=username, role="user1")
+                    request.session['userid'] = member.id
+                    if member.status == "Approved":
+                        return redirect('staff_home')
+                    else:
+                        return redirect('staff_validate')
+                elif User_Registration.objects.filter(username=username, role="user2").exists():
+                    member = User_Registration.objects.get(username=username, role="user2")
+                    request.session['userid'] = member.id
+                    if Profile_User.objects.filter(user_id=member.id).exists():
+                        return redirect('user_home')
+                    else:
+                        return redirect('profile_user_creation')
+                else:
+                    messages.error(request, 'Invalid username or password')
+        else:
+            messages.error(request, 'Invalid username or password')
+    
+    
+   
+
+
+# def login_main(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            # User exists and provided correct credentials, log them in.
+            login(request, user)
+            
+            # Redirect to the user's home page
+            return redirect('user_home')
+
+        # Check if the user is a superuser and log in as superuser
+        try:
+            member = User_Registration.objects.get(username=username, role="user1")
+            request.session['userid'] = member.id
+
+            if member.status == "Approved":
+                # Log in as superuser
+                superuser = authenticate(username=username, password=password)
+                if superuser and superuser.is_superuser:
+                    login(request, superuser)
+                    # Redirect to the admin_home page
+                    return redirect('admin_home')  # Corrected redirection for superuser
+                else:
+                    # Redirect to a validation page for superuser
+                    return redirect('index')
+            else:
+                # Redirect to a validation page for superuser
+                return redirect('index')
+        except User_Registration.DoesNotExist:
+            pass
+
+        # Check if the user is an ordinary user and log in as an ordinary user
+        try:
+            member = User_Registration.objects.get(username=username, role="user2")
+            request.session['userid'] = member.id
+            if Profile_User.objects.filter(user_id=member.id).exists():
+                login(request, user)
+                # Redirect to the user's home page
+                return redirect('user_home')
+            else:
+                # Redirect to a page for creating a user profile
+                return redirect('profile_user_creation')
+        except User_Registration.DoesNotExist:
+            pass
+
+        messages.error(request, 'Invalid username or password')
+
+    # If the request method is not POST or any other case, render the login page.
+    return render(request, 'index/login.html')
+ 
+
+#########################super user end here################################
+
 
 def forgotPassword(request):
     if request.method == 'POST':
@@ -345,10 +458,10 @@ def upload_images(request):
             )
             banner_image.save()
 
-            messages.success(request, 'Images and labels have been uploaded successfully!')
-            return redirect('upload_images')  # Redirect to the same page to clear the form
-
+            # For simplicity, we'll just display a success message
+            return render(request, 'success.html')
     else:
         form = ImageForm()
     return render(request, 'admin/bannerimg.html', {'form': form})
-  
+def adminhome(request):
+    return render(request,'admin/admin_home.html')

@@ -32,8 +32,9 @@ urlpatterns = [
     path('product_view/<int:item_id>/', views.product_view, name='product_view'),
 #####################bannerimag#############################
  path('upload_images', views.upload_images, name='upload_images'),
+ path('adminhome/',views.adminhome,name='admin.home')
 
- 
+
 ]
    
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

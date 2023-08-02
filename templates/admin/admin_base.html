@@ -100,7 +100,7 @@
          
         </ul>
         <form class="form-inline my-2 my-lg-0 mr-5">
-          {% csrf_token %}
+            {% csrf_token %} 
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light mdi mdi-magnify text-light" type="submit"></button>
         </form>
@@ -123,6 +123,10 @@
     
 
     {% endblock %}
-
+    <script>
+        var csrftoken = "{{ csrf_token }}";
+    
+        // Use 'csrftoken' in your JavaScript/AJAX requests
+    </script>
 </body>
 </html>
