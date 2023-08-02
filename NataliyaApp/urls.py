@@ -32,7 +32,13 @@ urlpatterns = [
     path('product_view/<int:item_id>/', views.product_view, name='product_view'),
 #####################bannerimag#############################
  path('upload_images', views.upload_images, name='upload_images'),
- path('adminhome/',views.adminhome,name='admin.home')
+ path('adminhome/',views.adminhome,name='admin.home'),
+
+# ###################### Admin Add item######################
+ path('add_item/', views.add_item, name='add_item'),
+ path('add_staff/', views.add_staff, name='add_staff'),
+ path('admin_itemlist/',views.admin_itemlist,name='admin_itemlist'),
+ path('stafflist/', views.staff_list_view, name='staff_list'),
 
 
 ]

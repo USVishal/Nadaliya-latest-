@@ -11,6 +11,7 @@ from django.core.validators import RegexValidator
 
 from django import forms
 from .models import item
+from .models import User_Registration
 
 class itemForm(forms.ModelForm):
     class Meta:
@@ -87,3 +88,20 @@ class ImageForm(forms.Form):
 
     image_5 = forms.ImageField(label='Image 5')
     label_5 = forms.CharField(label='Label 5', max_length=100)
+
+
+# #####################admin Add item#############################
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = item
+        fields = ['user', 'category', 'name', 'title_description', 'description', 'price', 'rating', 'buying_count', 'offer', 'image']
+# ##################admin add staff #####################
+class UserRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = User_Registration
+        fields = '__all__'
+# ########################admin staff list #################
+class UserRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = User_Registration
+        fields = '__all__'

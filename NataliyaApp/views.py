@@ -28,7 +28,8 @@ from django.contrib.auth import authenticate, login
 
 from django.contrib import messages
 from .models import User_Registration, Profile_User
-
+from .forms import ItemForm
+from .forms import UserRegistrationForm
 ######################################################################### <<<<<<<<<< LANDING MODULE >>>>>>>>>>>>>>
 def index(request):
     return render(request, 'index/index.html')
@@ -465,3 +466,34 @@ def upload_images(request):
     return render(request, 'admin/bannerimg.html', {'form': form})
 def adminhome(request):
     return render(request,'admin/admin_home.html')
+
+# #######################admin add item #####################
+def add_item(request):
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('/adminhome/')  # Change 'success' to the name of the URL pattern for success page
+    else:
+        form = ItemForm()
+    return render(request, 'admin/admin_additem.html', {'form': form})
+
+def admin_itemlist(request):
+    items = item.objects.all()
+    return render(request, 'admin/admin_itemlist.html',{'items':items})
+
+# #######################admin add staff #####################
+def add_staff(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/adminhome/')  
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'admin/admin_addstaff.html', {'form': form})
+
+# ######################admin staff list####################
+def staff_list_view(request):
+    staff_members = User_Registration.objects.filter(role='user1')
+    return render(request, 'admin/admin_stafflist.html', {'staff_members': staff_members})
